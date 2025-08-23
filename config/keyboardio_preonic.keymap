@@ -11,7 +11,8 @@
 
 #define LOWER 1
 #define RAISE 2
-#define FN 3
+#define DESK 3
+#define FN 4
 
 // Using layer taps on thumbs, having quick tap as well helps w/ repeating space/backspace
 &lt { quick_tap_ms = <200>; };
@@ -19,13 +20,37 @@
 // Convenience macro to make the Bluetooth commands shorter
 #define BT(n) BT_SEL n
 
-// Hyper key: all the modifiers
-#define HYPER LC(LS(LA(LGUI)))
-
 / {
+    behaviors {
+        lt_hp: layer_tap_hold_preferred {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <200>;
+            bindings = <&mo>, <&kp>;
+        };
+        
+        ht_hp: hold_tap_hold_preferred {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <200>;
+            bindings = <&kp>, <&kp>;
+        };
+        
+        esc_tilde: esc_tilde_mod_morph {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp ESC>, <&kp TILDE>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+    };
+    
     chosen {
         // Valid choices: [ &mit_layout, &ortho_layout ]
-        zmk,physical-layout = &mit_layout;
+        zmk,physical-layout = &ortho_layout;
     };
 
     keymap {
@@ -34,13 +59,13 @@
         base_layer {
             label = "Base";
             bindings = <
-                                                                                                             &kp C_PP    &mo FN      &kp C_MUTE
+                                                                                                                                           &kp LA(SPACE)    &kp LC(SPACE)      &kp C_MUTE
 
- &kp GRAVE   &kp N1      &kp N2      &kp N3      &kp N4      &kp N5      &kp N6      &kp N7      &kp N8      &kp N9      &kp N0      &kp MINUS
- &kp TAB     &kp Q       &kp W       &kp E       &kp R       &kp T       &kp Y       &kp U       &kp I       &kp O       &kp P       &kp BKSP
- &kp ESC     &kp A       &kp S       &kp D       &kp F       &kp G       &kp H       &kp J       &kp K       &kp L       &kp SEMI    &kp SQT
- &kp LSHFT   &kp Z       &kp X       &kp C       &kp V       &kp B       &kp N       &kp M       &kp COMMA   &kp PERIOD  &kp SLASH   &kp ENTER
- &kp HYPER   &kp LCTRL   &kp LALT    &kp LGUI    &mo LOWER         &kp SPACE         &mo RAISE   &kp LEFT    &kp DOWN    &kp UP      &kp RIGHT
+ &esc_tilde          &kp N1      &kp N2      &kp N3      &kp N4               &kp N5      &kp N6      &kp N7                 &kp N8      &kp N9           &kp N0             &kp BSLH
+ &kp TAB             &kp Q       &kp W       &kp E       &kp R                &kp T       &kp Y       &kp U                  &kp I       &kp O            &kp P              &kp BKSP
+ &kp LGUI            &kp A       &kp S       &kp D       &kp F                &kp G       &kp H       &kp J                  &kp K       &kp L            &kp SEMI           &kp SQT
+ &kp LSHFT           &kp Z       &kp X       &kp C       &kp V                &kp B       &kp N       &kp M                  &kp COMMA   &kp PERIOD       &kp SLASH          &ht_hp LSHFT ENTER
+ &mo FN              &mo DESK    &kp LCTRL   &kp LALT    &lt_hp LOWER GRAVE   &kp SPACE   &kp SPACE   &lt_hp RAISE CAPSLOCK  &kp LEFT    &kp DOWN         &kp UP             &kp RIGHT
 
             >;
             sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOLUME_DOWN>;            
@@ -49,13 +74,13 @@
         lower_layer {
             label = "Lower";
             bindings = <
-                                                                                                               &trans          &trans       &trans
+                                                                                                                 &trans           &trans      &trans
 
- &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &kp KP_DIVIDE &kp KP_MULTIPLY &kp KP_MINUS &kp KP_EQUAL
- &trans      &trans      &trans      &trans      &trans      &trans      &trans      &kp KP_N7   &kp KP_N8     &kp KP_N9       &kp KP_MINUS &trans
- &trans      &trans      &trans      &trans      &trans      &trans      &trans      &kp KP_N4   &kp KP_N5     &kp KP_N6       &kp KP_PLUS  &trans
- &trans      &trans      &trans      &trans      &trans      &trans      &trans      &kp KP_N1   &kp KP_N2     &kp KP_N3       &kp KP_PLUS  &trans
- &trans      &trans      &trans      &trans      &trans            &kp BKSP          &kp KP_N0   &kp KP_DOT    &trans          &kp KP_ENTER &trans
+ &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans          &trans           &trans      &trans
+ &trans      &kp LA(F1)  &kp LA(F2)  &kp LA(F3)  &kp LA(F4)  &kp LA(F5)  &trans      &trans      &trans          &trans           &trans      &trans
+ &trans      &kp LA(F6)  &kp LA(F7)  &kp LA(F8)  &kp LA(F9)  &kp LA(F10) &trans      &kp MINUS   &kp EQUAL       &kp UNDERSCORE   &kp PLUS    &trans
+ &trans      &kp LA(F11) &kp LA(F12) &kp LA(F13) &kp LA(F14) &kp LA(F15) &trans      &kp LBKT    &kp RBKT        &kp LBRC         &kp RBRC    &trans
+ &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &kp LG(LBKT)    &trans           &trans      &kp LG(RBKT)
 
             >;
             sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOLUME_DOWN>;
@@ -64,13 +89,28 @@
         raise_layer {
             label = "Raise";
             bindings = <
-                                                                                                               &trans     &trans     &trans
+                                                                                                                &trans            &trans      &trans
 
- &kp ESC     &kp F1      &kp F2      &kp F3      &kp F4      &kp F5      &kp F6      &kp F7       &kp F8       &kp F9     &kp F10    &kp BKSP
- &trans      &trans      &trans      &trans      &trans      &trans      &kp BSLH    &kp LS(LBKT) &kp LS(RBKT) &kp LBKT   &kp RBKT   &kp DEL
- &kp CAPS    &trans      &trans      &trans      &trans      &trans      &kp LEFT    &kp DOWN     &kp UP       &kp RIGHT  &trans     &trans
- &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans       &trans       &trans     &trans     &trans
- &trans      &trans      &kp RALT    &trans      &trans            &trans            &trans       &trans       &trans     &trans     &trans
+ &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans         &trans            &trans      &trans
+ &trans      &kp F1      &kp F2      &kp F3      &kp F4      &kp F5      &trans      &trans      &trans         &trans            &trans      &trans
+ &trans      &kp F6      &kp F7      &kp F8      &kp F9      &kp F10     &trans      &kp MINUS   &kp EQUAL      &kp UNDERSCORE    &kp PLUS    &trans
+ &trans      &kp F11     &kp F12     &kp F13     &kp F14     &kp F15     &trans      &kp LBKT    &kp RBKT       &kp LBRC          &kp RBRC    &trans
+ &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans         &trans            &trans      &trans
+
+            >;
+            sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOLUME_DOWN>;
+        };
+
+        desk_layer {
+            label = "Desk";
+            bindings = <
+                                                                                                               &trans      &trans      &trans
+
+ &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans        &trans      &trans      &trans
+ &trans      &kp LC(F1)  &kp LC(F2)  &kp LC(F3)  &kp LC(F4)  &kp LC(F5)  &trans      &trans      &trans        &trans      &trans      &trans
+ &trans      &kp LC(F6)  &kp LC(F7)  &kp LC(F8)  &kp LC(F9)  &kp LC(F10) &trans      &trans      &trans        &trans      &trans      &trans
+ &trans      &kp LC(F11) &kp LC(F12) &kp LC(F13) &kp LC(F14) &kp LC(F15) &trans      &trans      &trans        &trans      &trans      &trans
+ &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans        &trans      &trans      &trans
 
             >;
             sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOLUME_DOWN>;
@@ -82,10 +122,10 @@
                                                                                                              &trans      &trans      &trans
 
  &out OUT_TOG &bt BT(0)   &bt BT(1)   &bt BT(2)   &bt BT(3)   &bt BT(4)   &trans      &trans      &trans     &trans      &trans      &trans
- &trans       &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans     &trans      &trans      &trans
- &trans       &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans     &trans      &trans      &trans
- &trans       &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans     &trans      &trans      &trans
- &bootloader  &trans      &trans      &trans      &studio_unlock    &trans            &trans      &trans     &trans      &trans      &bt BT_CLR
+ &trans       &kp LG(F1)  &kp LG(F2)  &kp LG(F3)  &kp LG(F4)  &kp LG(F5)  &trans      &trans      &trans     &trans      &trans      &trans
+ &trans       &kp LG(F6)  &kp LG(F7)  &kp LG(F8)  &kp LG(F9)  &kp LG(F10) &trans      &trans      &trans     &trans      &trans      &trans
+ &trans       &kp LG(F11) &kp LG(F12) &kp LG(F13) &kp LG(F14) &kp LG(F15) &trans      &trans      &trans     &trans      &trans      &trans
+ &trans       &trans      &trans      &trans      &trans      &trans      &trans      &trans      &kp LA(LC(LEFT))  &kp LA(LC(DOWN))  &kp LA(LC(UP))  &kp LA(LC(RIGHT))
 
             >;
             sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOLUME_DOWN>;
