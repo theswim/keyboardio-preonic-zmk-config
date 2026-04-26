@@ -76,7 +76,7 @@
             bindings = <
                                                                                                                  &trans           &trans      &trans
 
- &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans          &trans           &trans      &trans
+ &trans      &kp LC(N1)  &kp LC(N2)  &kp LC(N3)  &kp LC(N4)  &kp LC(N5)  &kp LC(N6)  &kp LC(N7)  &kp LC(N8)      &kp LC(N9)       &kp LC(N0)  &trans
  &trans      &kp LA(F1)  &kp LA(F2)  &kp LA(F3)  &kp LA(F4)  &kp LA(F5)  &trans      &trans      &trans          &trans           &trans      &trans
  &trans      &kp LA(F6)  &kp LA(F7)  &kp LA(F8)  &kp LA(F9)  &kp LA(F10) &trans      &kp MINUS   &kp EQUAL       &kp UNDERSCORE   &kp PLUS    &trans
  &trans      &kp LA(F11) &kp LA(F12) &kp LA(F13) &kp LA(F14) &kp LA(F15) &trans      &kp LBKT    &kp RBKT        &kp LBRC         &kp RBRC    &trans
@@ -91,7 +91,7 @@
             bindings = <
                                                                                                                 &trans            &trans      &trans
 
- &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans      &trans         &trans            &trans      &trans
+ &trans      &kp LC(N1)  &kp LC(N2)  &kp LC(N3)  &kp LC(N4)  &kp LC(N5)  &kp LC(N6)  &kp LC(N7)  &kp LC(N8)     &kp LC(N9)        &kp LC(N0)  &trans
  &trans      &kp F1      &kp F2      &kp F3      &kp F4      &kp F5      &trans      &trans      &trans         &trans            &trans      &trans
  &trans      &kp F6      &kp F7      &kp F8      &kp F9      &kp F10     &trans      &kp MINUS   &kp EQUAL      &kp UNDERSCORE    &kp PLUS    &trans
  &trans      &kp F11     &kp F12     &kp F13     &kp F14     &kp F15     &trans      &kp LBKT    &kp RBKT       &kp LBRC          &kp RBRC    &trans
@@ -121,7 +121,7 @@
             bindings = <
                                                                                                              &trans      &trans      &trans
 
- &out OUT_TOG &bt BT(0)   &bt BT(1)   &bt BT(2)   &bt BT(3)   &bt BT(4)   &trans      &trans      &trans     &trans      &trans      &trans
+ &out OUT_TOG &bt BT(0)   &bt BT(1)   &bt BT(2)   &bt BT(3)   &bt BT(4)   &trans      &trans      &trans     &trans      &trans      &bootloader
  &trans       &kp LG(F1)  &kp LG(F2)  &kp LG(F3)  &kp LG(F4)  &kp LG(F5)  &trans      &trans      &trans     &trans      &trans      &trans
  &trans       &kp LG(F6)  &kp LG(F7)  &kp LG(F8)  &kp LG(F9)  &kp LG(F10) &trans      &trans      &trans     &trans      &trans      &trans
  &trans       &kp LG(F11) &kp LG(F12) &kp LG(F13) &kp LG(F14) &kp LG(F15) &trans      &trans      &trans     &trans      &trans      &trans
